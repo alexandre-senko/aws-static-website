@@ -1,10 +1,12 @@
 # aws-static-website
 
-AWS CloudFormation template for the static website, hosted into AWS S3, deployed into AWS CloudFront CDN with enabled logging, added readable domain name (AWS Route53) and certificate (AWS ACM). Website content itself (index.html, etc.) not included
+Static website, hosted into AWS S3, deployed into AWS CloudFront CDN with enabled logging, added readable domain name (AWS Route53) and certificate (AWS ACM).
+
+![alt text](https://raw.githubusercontent.com/alexandre-senko/aws-static-website/master/AWS_static_website_architecture.jpg)
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the CloudFormation, which can be deployed into your AWS account.
 
 ### Prerequisites
 
