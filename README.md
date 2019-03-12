@@ -6,7 +6,7 @@ Static website, hosted into AWS S3, deployed into AWS CloudFront CDN with enable
 
 Your content - index.html file and others (*.html, *.js, *.css etc) being hosted into the "RootBucket" S3 bucket. This bucket, through the bucket policy protection connected to the CloudFront origin identity. CloudFron acts as a CDN with additinal restrictions - only HTTPS traffic with GET and HEAD requests allowed. "RootBucket" is a source for this CDN. Default expiration time is 24 hours.
 
-"RootBucket" must have the same name, as your domain name, registered or migrated into Route53 - DOMAIN_NAME. This name added into Route53 HostedZone as an alias of a CloudFront endpoint. Empty "WWWBucket" S3 bucket with the redirect configuration is needed to redirect WWW.DOMAIN_NAME requests to DOMAIN_NAME. WWW.DOMAIN_NAME has a CNAME Ruote53 recordset for the "WWWBucket" URL.
+"RootBucket" must have the same name, as your domain name, registered or migrated into Route53 - DOMAIN_NAME. This name added into Route53 HostedZone as an alias of a CloudFront endpoint.
 
 CDN logs stored into the "WebsiteLogsBucket" S3 bucket.  
 
@@ -22,7 +22,7 @@ Then, you should add your SSL certificate into the AWS ACM service. Your certifi
 
 ### Deployment
 
-In order to [deploy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-create-stack.html) "infrastructure.yaml" CloudFormation template, your should specify input parameters:
+In order to [deploy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-create-stack.html) "static_website.yaml" CloudFormation template, your should specify input parameters:
 
 RootDomainName - Your website domain name
 HostedZoneName - Name of a Route53 HostedZone with your website domain name
