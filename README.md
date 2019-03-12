@@ -4,79 +4,47 @@ Static website, hosted into AWS S3, deployed into AWS CloudFront CDN with enable
 
 ![alt text](https://raw.githubusercontent.com/alexandre-senko/aws-static-website/master/AWS_static_website_architecture.jpg)
 
+Your content - index.html file and others (*.html, *.js, *.css etc) are hosted into the "RootBucket" S3 bucket. This bucket, through the bucket policy protection connected to the CloudFront origin identity. CloudFron acts as a CDN with additinal restrictions - only HTTPS traffic with GET and HEAD requests allowed. "RootBucket" is a source for this CDN. Default expiration time is 24 hours.
+
+"RootBucket" must have the same, as your domain name, registered or migrated into Route53 - DOMAIN.NAME. This name added into Route53 HostedZone as an [alias](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-cloudfront-distribution.html) of a CloudFront. Empty "WWWBucket" S3 bucket with the redirect configuration needed to redirect WWW.DOMAIN.NAME requests to DOMAIN.NAME. WWW.DOMAIN.NAME has a CNAME Ruote53 recordset for the "WWWBucket" URL.
+
+CDN logs stored into the "WebsiteLogsBucket" S3 bucket.  
+
 ## Getting Started
 
 These instructions will get you a copy of the CloudFormation, which can be deployed into your AWS account.
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+To use this template, you should have a Route53 hosted zone for your domain name. It could be ordered either [directly into Route53](https://docs.aws.amazon.com/en_us/Route53/latest/DeveloperGuide/domain-register.html) or migrated from [external DNS](https://docs.aws.amazon.com/en_us/Route53/latest/DeveloperGuide/domain-transfer-to-route-53.html).
+Then, you should add your SSL certificate into the AWS ACM service. Your certificate should be [uploaded](https://docs.aws.amazon.com/en_us/acm/latest/userguide/import-certificate.html) in N.Virginia region, or [requested from AWS ACM](https://docs.aws.amazon.com/en_us/acm/latest/userguide/gs-acm-request-public.html) in this region. This is important: only [N.Virginia](https://docs.aws.amazon.com/acm/latest/userguide/acm-regions.html) certificates allowed for the CloudFront. Certificate should sign DOMAIN.NAME and WWW.DOMAIN.NAME.
 
-```
-Give examples
-```
 
-### Installing
+### Deployment
 
-A step by step series of examples that tell you how to get a development env running
+In order to [deploy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-create-stack.html) "infrastructure.yaml" CloudFormation template, your should specify input parameters:
 
-Say what the step will be
+RootDomainName - Your website domain name
+HostedZoneName - Name of a Route53 HostedZone with your website domain name
+SSLCertificateARN - [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of your certificate, imported into ACM
+PricingClass - CloudFormation [pricing class](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html)
 
-```
-Give the example
-```
+Please note, that deployment process may takes up to 40 min. Main time consuming part is a CloudFront deployment.
 
-And repeat
+After sucessfully creating CloudFormation stack, you should upload your content into the "RootBucket".  
 
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+Used following snippets of a AWS CloudFromation templates 
+* [Route53 with the CloudFront distribution](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/quickref-route53.html#w2ab1c17c23c81c11)
+* [S3 bucket, configured for the static website hosting](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/quickref-s3.html#scenario-s3-bucket-website-customdomain)
+* [CloudFront with the S3 origin](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/quickref-cloudfront.html#scenario-cloudfront-s3origin)
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **ALexandre Senko** - [alexandre-senko](https://github.com/alexandre-senko/)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
