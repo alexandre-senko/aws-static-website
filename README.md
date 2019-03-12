@@ -2,11 +2,11 @@
 
 Static website, hosted into AWS S3, deployed into AWS CloudFront CDN with enabled logging, added readable domain name (AWS Route53) and certificate (AWS ACM).
 
-![alt text](https://raw.githubusercontent.com/alexandre-senko/aws-static-website/master/AWS_static_website_architecture.jpg)
+![Static website architecture](https://raw.githubusercontent.com/alexandre-senko/aws-static-website/master/AWS_static_website_architecture.jpg)
 
-Your content - index.html file and others (*.html, *.js, *.css etc) are hosted into the "RootBucket" S3 bucket. This bucket, through the bucket policy protection connected to the CloudFront origin identity. CloudFron acts as a CDN with additinal restrictions - only HTTPS traffic with GET and HEAD requests allowed. "RootBucket" is a source for this CDN. Default expiration time is 24 hours.
+Your content - index.html file and others (*.html, *.js, *.css etc) being hosted into the "RootBucket" S3 bucket. This bucket, through the bucket policy protection connected to the CloudFront origin identity. CloudFron acts as a CDN with additinal restrictions - only HTTPS traffic with GET and HEAD requests allowed. "RootBucket" is a source for this CDN. Default expiration time is 24 hours.
 
-"RootBucket" must have the same, as your domain name, registered or migrated into Route53 - DOMAIN_NAME. This name added into Route53 HostedZone as an [alias](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-cloudfront-distribution.html) of a CloudFront. Empty "WWWBucket" S3 bucket with the redirect configuration needed to redirect WWW.DOMAIN_NAME requests to DOMAIN_NAME. WWW.DOMAIN_NAME has a CNAME Ruote53 recordset for the "WWWBucket" URL.
+"RootBucket" must have the same name, as your domain name, registered or migrated into Route53 - DOMAIN_NAME. This name added into Route53 HostedZone as an alias of a CloudFront endpoint. Empty "WWWBucket" S3 bucket with the redirect configuration is needed to redirect WWW.DOMAIN_NAME requests to DOMAIN_NAME. WWW.DOMAIN_NAME has a CNAME Ruote53 recordset for the "WWWBucket" URL.
 
 CDN logs stored into the "WebsiteLogsBucket" S3 bucket.  
 
