@@ -6,7 +6,7 @@ Static website, hosted into AWS S3, deployed into AWS CloudFront CDN with enable
 
 Your content - index.html file and others (*.html, *.js, *.css etc) are hosted into the "RootBucket" S3 bucket. This bucket, through the bucket policy protection connected to the CloudFront origin identity. CloudFron acts as a CDN with additinal restrictions - only HTTPS traffic with GET and HEAD requests allowed. "RootBucket" is a source for this CDN. Default expiration time is 24 hours.
 
-"RootBucket" must have the same, as your domain name, registered or migrated into Route53 - DOMAIN.NAME. This name added into Route53 HostedZone as an [alias](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-cloudfront-distribution.html) of a CloudFront. Empty "WWWBucket" S3 bucket with the redirect configuration needed to redirect WWW.DOMAIN.NAME requests to DOMAIN.NAME. WWW.DOMAIN.NAME has a CNAME Ruote53 recordset for the "WWWBucket" URL.
+"RootBucket" must have the same, as your domain name, registered or migrated into Route53 - DOMAIN_NAME. This name added into Route53 HostedZone as an [alias](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-cloudfront-distribution.html) of a CloudFront. Empty "WWWBucket" S3 bucket with the redirect configuration needed to redirect WWW.DOMAIN_NAME requests to DOMAIN_NAME. WWW.DOMAIN_NAME has a CNAME Ruote53 recordset for the "WWWBucket" URL.
 
 CDN logs stored into the "WebsiteLogsBucket" S3 bucket.  
 
@@ -17,7 +17,7 @@ These instructions will get you a copy of the CloudFormation, which can be deplo
 ### Prerequisites
 
 To use this template, you should have a Route53 hosted zone for your domain name. It could be ordered either [directly into Route53](https://docs.aws.amazon.com/en_us/Route53/latest/DeveloperGuide/domain-register.html) or migrated from [external DNS](https://docs.aws.amazon.com/en_us/Route53/latest/DeveloperGuide/domain-transfer-to-route-53.html).
-Then, you should add your SSL certificate into the AWS ACM service. Your certificate should be [uploaded](https://docs.aws.amazon.com/en_us/acm/latest/userguide/import-certificate.html) in N.Virginia region, or [requested from AWS ACM](https://docs.aws.amazon.com/en_us/acm/latest/userguide/gs-acm-request-public.html) in this region. This is important: only [N.Virginia](https://docs.aws.amazon.com/acm/latest/userguide/acm-regions.html) certificates allowed for the CloudFront. Certificate should sign DOMAIN.NAME and WWW.DOMAIN.NAME.
+Then, you should add your SSL certificate into the AWS ACM service. Your certificate should be [uploaded](https://docs.aws.amazon.com/en_us/acm/latest/userguide/import-certificate.html) in N.Virginia region, or [requested from AWS ACM](https://docs.aws.amazon.com/en_us/acm/latest/userguide/gs-acm-request-public.html) in this region. This is important: only [N.Virginia](https://docs.aws.amazon.com/acm/latest/userguide/acm-regions.html) certificates allowed for the CloudFront. Certificate should sign DOMAIN_NAME and WWW.DOMAIN_NAME.
 
 
 ### Deployment
